@@ -108,7 +108,7 @@ export const sendMessageToGemini = async (message: string): Promise<string> => {
   try {
     // Thử gọi API Gemini thực tế trước
     const GEMINI_API_KEY = process.env.REACT_APP_GEMINI_API_KEY || 'AIzaSyCMIFA5nM-uma3CzMOjkums_BDXJdkJ3jc';
-    const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+    const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent';
     
     const response = await axios.post(
       `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`,
