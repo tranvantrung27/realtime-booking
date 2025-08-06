@@ -19,7 +19,7 @@ exports.sendMessage = async (req, res) => {
       {
         contents: [{
           parts: [{
-            text: `Bạn là trợ lý ảo của bệnh viện. Hãy trả lời câu hỏi sau bằng tiếng Việt một cách thân thiện và hữu ích: ${message}`
+            text: `Bạn là trợ lý ảo của bệnh viện. Hãy trả lời câu hỏi sau bằng tiếng Việt một cách thân thiện, ngắn gọn và dễ đọc. Tránh sử dụng dấu sao (*) và bullet points. Trả lời trong 2-3 câu ngắn gọn, dễ hiểu: ${message}`
           }]
         }]
       },
