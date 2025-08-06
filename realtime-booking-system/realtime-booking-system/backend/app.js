@@ -36,6 +36,10 @@ app.use('/api/admin', adminRoutes);
 const notificationRoutes = require('./routes/notification.route');
 app.use('/api/notifications', notificationRoutes);
 
+// Thêm route cho Gemini AI
+const geminiRoutes = require('./routes/gemini.route');
+app.use('/api/gemini', geminiRoutes);
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
