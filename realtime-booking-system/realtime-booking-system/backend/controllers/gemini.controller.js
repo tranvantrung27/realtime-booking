@@ -83,6 +83,10 @@ const getMockResponse = (message) => {
     {
       keywords: ['đau khớp', 'viêm khớp', 'đau lưng', 'đau cột sống', 'thoát vị', 'đau vai', 'đau gối'],
       response: 'Với các triệu chứng về đau khớp/cột sống, bạn nên khám tại khoa Cơ xương khớp. Bác sĩ có thể chỉ định chụp X-quang, MRI hoặc xét nghiệm viêm khớp.'
+    },
+    {
+      keywords: ['ngứa', 'mẩn đỏ', 'nổi mụn', 'da', 'dị ứng'],
+      response: 'Với triệu chứng ngứa, bạn nên khám tại khoa Da liễu. Bác sĩ sẽ kiểm tra tình trạng da và có thể chỉ định các xét nghiệm liên quan nếu cần.'
     }
   ];
 

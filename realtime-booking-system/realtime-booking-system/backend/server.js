@@ -1,4 +1,4 @@
-require('dotenv').config({ path: './config/.env' }); // ✅ load đúng vị trí
+require('dotenv').config(); // ✅ load .env từ thư mục gốc
 console.log('[DEBUG] Loaded mail user:', process.env.MAIL_USER);
 
 
