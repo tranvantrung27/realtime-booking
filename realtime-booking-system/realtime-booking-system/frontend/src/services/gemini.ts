@@ -1,5 +1,5 @@
 // Commented out as we're using mock responses instead of actual API calls
-// import axios from 'axios';
+import axios from 'axios';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -102,40 +102,45 @@ const getMockResponse = (message: string): string => {
   }
   
   return 'Tôi là trợ lý ảo của bệnh viện. Tôi có thể giúp bạn tra cứu thông tin về lịch khám, đặt lịch, tìm bác sĩ phù hợp hoặc giải đáp các câu hỏi về dịch vụ y tế. Bạn cũng có thể mô tả triệu chứng bệnh để tôi gợi ý khoa khám phù hợp.';
-}
+};
 
 export const sendMessageToGemini = async (message: string): Promise<string> => {
   try {
-    // Tạm thời mô phỏng phản hồi để tránh lỗi SSL
-    // const response = await axios.post(
-    //   'https://api.genmini.com/consultation',
-    //   {
-    //     message,
-    //   },
-    //   {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Authorization': `Bearer AIzaSyCMIFA5nM-uma3CzMOjkums_BDXJdkJ3jc`,
-    //     },
-    //   }
-    // );
+    // Thử gọi API Gemini thực tế trước
+    const GEMINI_API_KEY = process.env.REACT_APP_GEMINI_API_KEY || 'AIzaSyCMIFA5nM-uma3CzMOjkums_BDXJdkJ3jc';
+    const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent';
     
-    // Mô phỏng phản hồi từ API
-    const mockResponse = {
-      data: {
-        reply: getMockResponse(message)
+    const response = await axios.post(
+      `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`,
+      {
+        contents: [{
+          parts: [{
+            text: `Bạn là trợ lý ảo của bệnh viện. Hãy trả lời câu hỏi sau bằng tiếng Việt một cách thân thiện và hữu ích: ${message}`
+          }]
+        }]
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 10000, // 10 giây timeout
       }
-    };
+    );
     
-    // Giả lập độ trễ mạng
-    await new Promise(resolve => setTimeout(resolve, 800));
+    // Xử lý phản hồi từ Gemini API
+    if (response.data && response.data.candidates && response.data.candidates[0]) {
+      const aiResponse = response.data.candidates[0].content.parts[0].text;
+      return aiResponse;
+    } else {
+      throw new Error('Phản hồi không hợp lệ từ Gemini API');
+    }
     
-    const response = mockResponse;
-
-    return response.data.reply || 'Xin lỗi, tôi không thể xử lý yêu cầu của bạn lúc này.';
-  } catch (error) {
+  } catch (error: any) {
     console.error('Lỗi khi gọi API Gemini:', error);
-    return 'Đã xảy ra lỗi khi kết nối với trợ lý ảo. Vui lòng thử lại sau.';
+    
+    // Fallback về mock response nếu API thất bại
+    console.log('Sử dụng mock response làm fallback...');
+    return getMockResponse(message);
   }
 };
 
